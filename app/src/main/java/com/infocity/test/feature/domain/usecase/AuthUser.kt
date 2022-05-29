@@ -29,8 +29,9 @@ class AuthUser(
         )
         userRepository.saveUser(validUser)
 
-        return flow<User> { validUser }
-
+        return flow {
+            emit(validUser)
+        }
     }
 
     private suspend fun updateToken(user: User): UserAuthResponse {

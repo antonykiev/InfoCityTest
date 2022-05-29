@@ -48,6 +48,7 @@ dependencies {
 
     implementation (Dependencies.Retrofit.retrofit)
     implementation (Dependencies.Retrofit.okHttp)
+    implementation (Dependencies.Retrofit.interceptor)
     implementation (Dependencies.Retrofit.gsonConverter)
 
     implementation(Dependencies.Room.room)
