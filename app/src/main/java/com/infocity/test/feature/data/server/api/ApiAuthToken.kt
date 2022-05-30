@@ -10,8 +10,8 @@ import retrofit2.http.POST
 interface ApiAuthToken {
 
     @Headers(value = [
-        "accept: application/json",
-        "Content-Type: application/json-patch+json"
+        HttpRoutes.HEADERS_JSON,
+        HttpRoutes.HEADERS_JSON_PATCH,
     ])
     @POST(HttpRoutes.AUTH_TOKEN)
     suspend fun authToken(@Body userAuthDto: UserAuthDto): UserAuthResponse

@@ -8,15 +8,20 @@ import com.infocity.test.App
 import com.infocity.test.feature.data.InfoCityDataBase
 import com.infocity.test.feature.data.dao.UserDao
 import com.infocity.test.feature.data.repository.AuthRepositoryImpl
+import com.infocity.test.feature.data.repository.GetServiceObjectTypesRepositoryImpl
 import com.infocity.test.feature.data.repository.UserRepositoryImpl
 import com.infocity.test.feature.data.server.RetrofitImpl
 import com.infocity.test.feature.data.server.api.Api
 import com.infocity.test.feature.data.source.AuthTokenSource
+import com.infocity.test.feature.data.source.GetServiceObjectTypesSource
 import com.infocity.test.feature.data.source.UserSource
 import com.infocity.test.feature.domain.repository.AuthRepository
+import com.infocity.test.feature.domain.repository.GetServiceObjectTypesRepository
 import com.infocity.test.feature.domain.repository.UserRepository
 import com.infocity.test.feature.domain.usecase.AuthUser
+import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantity
 import com.infocity.test.feature.presentation.auth.ViewModelAuth
+import com.infocity.test.feature.presentation.service_object_type.ServiceObjectTypeViewModel
 import dagger.*
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -59,6 +64,11 @@ abstract class ViewModelModule {
     abstract fun provideViewModelAuth(viewModel: ViewModelAuth): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(ServiceObjectTypeViewModel::class)
+    abstract fun provideServiceObjectTypeViewModel(viewModel: ServiceObjectTypeViewModel): ViewModel
+
+    @Binds
     abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory
 
 }
@@ -74,6 +84,13 @@ internal class UseCaseModule {
     ): AuthUser =
         AuthUser(userRepository, authRepository)
 
+    @Singleton
+    @Provides
+    fun provideGetObjectTypesQuantity(
+        remoteRepo: GetServiceObjectTypesRepository,
+    ): GetObjectTypesQuantity =
+        GetObjectTypesQuantity(remoteRepo)
+
 }
 
 @Module
@@ -83,6 +100,11 @@ internal class RepositoryModule {
     @Provides
     fun provideAuthRepository(dataSource: AuthTokenSource): AuthRepository =
         AuthRepositoryImpl(dataSource)
+
+    @Singleton
+    @Provides
+    fun provideGetServiceObjectTypesRepository(dataSource: GetServiceObjectTypesSource): GetServiceObjectTypesRepository =
+        GetServiceObjectTypesRepositoryImpl(dataSource)
 
     @Singleton
     @Provides
@@ -97,6 +119,11 @@ internal class DataSourceModule {
     @Provides
     fun provideAuthTokenSource(api: Api): AuthTokenSource =
         AuthTokenSource(api)
+
+    @Singleton
+    @Provides
+    fun provideGetServiceObjectTypesSource(api: Api): GetServiceObjectTypesSource =
+        GetServiceObjectTypesSource(api)
 
     @Singleton
     @Provides

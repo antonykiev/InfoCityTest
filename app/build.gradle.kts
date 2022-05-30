@@ -61,6 +61,8 @@ dependencies {
     implementation  (Dependencies.Navigation.navigationFragmentKtx)
     implementation  (Dependencies.Navigation.navigationUiKtx)
 
+    implementation  (Dependencies.Binding.delegate)
+
     implementation  (Dependencies.Mapper.mapStruct)
     kapt            (Dependencies.Mapper.mapStructKapt)
 
