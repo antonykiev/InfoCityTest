@@ -29,7 +29,10 @@ interface ApiServiceTypeObject {
     suspend fun getServiceObject(
         @Header ("Authorization") bearer: String,
         @Query("Skip") skip: Int,
-        @Query("Take") take: Int
+        @Query("Take") take: Int = TAKE
     ): DataResponse<ServiceObjectTypeResponse>
 
+    companion object {
+        const val TAKE = 20
+    }
 }

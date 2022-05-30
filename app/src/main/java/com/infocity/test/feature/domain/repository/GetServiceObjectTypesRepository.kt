@@ -12,10 +12,10 @@ interface GetServiceObjectTypesRepository {
 
     suspend fun getRemoteServiceObject(
         skip: Int,
-        take: Int
+        take: Int = 20
     ): List<ServiceObjectTypeResponse>
 
     suspend fun getLocalServiceObject(): Flow<List<ServiceObjectType>>
 
-    suspend fun saveAll(list: List<ServiceObjectType>)
+    suspend fun saveAll(list: List<ServiceObjectTypeResponse>)
 }

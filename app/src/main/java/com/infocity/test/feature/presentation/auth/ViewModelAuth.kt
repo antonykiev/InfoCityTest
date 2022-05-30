@@ -6,6 +6,7 @@ import com.infocity.test.feature.domain.usecase.AuthUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class ViewModelAuth @Inject constructor(
     init {
         viewModelScope.launch {
             authUser.invoke()
-                .collect {
+                .collectLatest {
                     _uiAuthState.emit(UIAuthState.Success)
                 }
         }

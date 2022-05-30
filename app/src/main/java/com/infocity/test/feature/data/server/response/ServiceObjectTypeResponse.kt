@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 data class ServiceObjectTypeResponse(
     val id: String,
-    val children: String?,
+//    val children: String?,
     val companies: String?,
     val createdAt: String,
     val createdBy: String,
@@ -19,7 +19,7 @@ data class ServiceObjectTypeResponse(
     val members: String?,
     val name: String,
     val number: Int,
-    val parent: String?,
+//    val parent: String?,
     val parentId: String,
     val serviceAttributes: String?,
     val serviceObjects: String?,
