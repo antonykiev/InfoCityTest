@@ -14,7 +14,10 @@ class GetObjectTypesQuantityLoader(
 
     suspend operator fun invoke(): Flow<List<ServiceObjectType>> {
 
-        val remoteResult = repo.loadTotalCount().totalCount
+        val remoteResult = runCatching {
+            repo.loadTotalCount().totalCount
+        }.getOrElse { 0 }
+
         val localResultSize = runCatching {
             repo.getLocalServiceObject().first().size
         }.getOrElse { 0 }

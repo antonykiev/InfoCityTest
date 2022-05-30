@@ -23,11 +23,12 @@ class AuthUser(
             return@getOrElse testUser
         }
 
-        val updatedToken = updateToken(user)
-        val validUser = user.copy(
-            accessToken = updatedToken.accessToken
-        )
-        userRepository.saveUser(validUser)
+        updateToken(user).map { updatedToken ->
+                val validUser = user.copy(
+                    accessToken = updatedToken.accessToken
+                )
+                userRepository.saveUser(validUser)
+            }
 
         return userRepository.getUser()
             .filterNotNull()
@@ -35,13 +36,15 @@ class AuthUser(
             .filter { !it.accessToken.isNullOrEmpty() }
     }
 
-    private suspend fun updateToken(user: User): UserAuthResponse {
-        return authRepository.authToken(
-            UserAuthDto(
-                user.login,
-                user.password
+    private suspend fun updateToken(user: User): Result<UserAuthResponse> {
+        return runCatching {
+            authRepository.authToken(
+                UserAuthDto(
+                    user.login,
+                    user.password
+                )
             )
-        )
+        }
     }
 
     private fun buildTestUser(): User = User(
