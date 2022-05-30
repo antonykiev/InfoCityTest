@@ -22,7 +22,7 @@ class ServiceObjectTypeFragment: Fragment(R.layout.fragment_service_object_type)
 
     private val binding by viewBinding(FragmentServiceObjectTypeBinding::bind)
 
-    private val serviceObjectTypeViewModel by activityViewModels<ServiceObjectTypeViewModel> { viewModelFactory }
+    private val serviceObjectTypeViewModel by viewModels<ServiceObjectTypeViewModel> { viewModelFactory }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -46,8 +46,6 @@ dependencies {
     implementation  (Dependencies.LifeCycle.livedata)
     implementation  (Dependencies.LifeCycle.viewModel)
 
-    implementation  (Dependencies.WorkManager.workRuntimeKtx)
-
     implementation  (Dependencies.Retrofit.retrofit)
     implementation  (Dependencies.Retrofit.okHttp)
     implementation  (Dependencies.Retrofit.interceptor)

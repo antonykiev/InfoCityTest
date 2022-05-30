@@ -1,20 +1,25 @@
 package com.infocity.test.feature.domain.usecase
 
 import com.infocity.test.feature.domain.repository.GetServiceObjectTypesRepository
-import com.infocity.test.feature.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 class GetObjectTypesQuantity(
-    private val userRepository: UserRepository,
-    private val remoteRepo: GetServiceObjectTypesRepository
+    private val repo: GetServiceObjectTypesRepository
 ) {
 
     suspend operator fun invoke(): Flow<Int> {
-        val accessToken = userRepository.getUser().first().accessToken!!
 
-        val  remoteResult = remoteRepo.loadTotalCount(accessToken).totalCount
+        val remoteResult = repo.loadTotalCount().totalCount
+        val localResultSize = runCatching {
+            repo.getLocalServiceObject().first().size
+        }.getOrElse { 0 }
+
+        if (localResultSize < remoteResult) {
+            repo.getRemoteServiceObject(0, 10)
+        }
+
 
         return flow {
             emit(remoteResult)

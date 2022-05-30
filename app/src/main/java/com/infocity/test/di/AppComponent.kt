@@ -1,11 +1,11 @@
 package com.infocity.test.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.infocity.test.App
 import com.infocity.test.feature.data.InfoCityDataBase
+import com.infocity.test.feature.data.dao.ServiceObjectTypeDao
 import com.infocity.test.feature.data.dao.UserDao
 import com.infocity.test.feature.data.repository.AuthRepositoryImpl
 import com.infocity.test.feature.data.repository.GetServiceObjectTypesRepositoryImpl
@@ -13,7 +13,8 @@ import com.infocity.test.feature.data.repository.UserRepositoryImpl
 import com.infocity.test.feature.data.server.RetrofitImpl
 import com.infocity.test.feature.data.server.api.Api
 import com.infocity.test.feature.data.source.AuthTokenSource
-import com.infocity.test.feature.data.source.GetServiceObjectTypesSource
+import com.infocity.test.feature.data.source.GetServiceObjectTypesLocalSource
+import com.infocity.test.feature.data.source.GetServiceObjectTypesRemoteSource
 import com.infocity.test.feature.data.source.UserSource
 import com.infocity.test.feature.domain.repository.AuthRepository
 import com.infocity.test.feature.domain.repository.GetServiceObjectTypesRepository
@@ -98,10 +99,9 @@ internal class UseCaseModule {
     @Singleton
     @Provides
     fun provideGetObjectTypesQuantity(
-        userRepository: UserRepository,
         remoteRepo: GetServiceObjectTypesRepository,
     ): GetObjectTypesQuantity =
-        GetObjectTypesQuantity(userRepository, remoteRepo)
+        GetObjectTypesQuantity(remoteRepo)
 
 }
 
@@ -115,8 +115,12 @@ internal class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideGetServiceObjectTypesRepository(dataSource: GetServiceObjectTypesSource): GetServiceObjectTypesRepository =
-        GetServiceObjectTypesRepositoryImpl(dataSource)
+    fun provideGetServiceObjectTypesRepository(
+        dataSourceLocal: GetServiceObjectTypesLocalSource,
+        dataSourceRemote: GetServiceObjectTypesRemoteSource,
+        userSource: UserSource
+    ): GetServiceObjectTypesRepository =
+        GetServiceObjectTypesRepositoryImpl(dataSourceLocal, dataSourceRemote, userSource)
 
     @Singleton
     @Provides
@@ -134,13 +138,18 @@ internal class DataSourceModule {
 
     @Singleton
     @Provides
-    fun provideGetServiceObjectTypesSource(api: Api): GetServiceObjectTypesSource =
-        GetServiceObjectTypesSource(api)
+    fun provideGetServiceObjectTypesSource(api: Api): GetServiceObjectTypesRemoteSource =
+        GetServiceObjectTypesRemoteSource(api)
 
     @Singleton
     @Provides
     fun provideUserSource(dao: UserDao): UserSource =
         UserSource(dao)
+
+    @Singleton
+    @Provides
+    fun provideGetServiceObjectTypesLocalSource(dao: ServiceObjectTypeDao): GetServiceObjectTypesLocalSource =
+        GetServiceObjectTypesLocalSource(dao)
 
 }
 
@@ -176,8 +185,14 @@ internal class RoomModule {
 
     @Singleton
     @Provides
-    fun providesProductDao(demoDatabase: InfoCityDataBase): UserDao {
+    fun providesDao(demoDatabase: InfoCityDataBase): UserDao {
         return demoDatabase.userDao
+    }
+
+    @Singleton
+    @Provides
+    fun providesServiceObjectTypeDao(demoDatabase: InfoCityDataBase): ServiceObjectTypeDao {
+        return demoDatabase.serviceObjectTypeDao
     }
 
 }

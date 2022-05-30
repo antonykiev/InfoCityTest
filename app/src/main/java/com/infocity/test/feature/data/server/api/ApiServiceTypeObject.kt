@@ -1,6 +1,7 @@
 package com.infocity.test.feature.data.server.api
 
 import com.infocity.test.feature.data.server.HttpRoutes
+import com.infocity.test.feature.data.server.response.DataResponse
 import com.infocity.test.feature.data.server.response.LoadTotalCountResponse
 import com.infocity.test.feature.data.server.response.ServiceObjectTypeResponse
 import retrofit2.http.*
@@ -26,8 +27,9 @@ interface ApiServiceTypeObject {
     ])
     @GET(HttpRoutes.GET_SERVICE_OBJECT_TYPES)
     suspend fun getServiceObject(
+        @Header ("Authorization") bearer: String,
         @Query("Skip") skip: Int,
         @Query("Take") take: Int
-    ): List<ServiceObjectTypeResponse>
+    ): DataResponse<ServiceObjectTypeResponse>
 
 }
