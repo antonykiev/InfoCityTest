@@ -1,16 +1,18 @@
 package com.infocity.test.feature.domain.usecase
 
 import com.infocity.test.feature.data.server.api.ApiServiceTypeObject
+import com.infocity.test.feature.data.store.ServiceObjectType
 import com.infocity.test.feature.domain.repository.GetServiceObjectTypesRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
-class GetObjectTypesQuantity(
+class GetObjectTypesQuantityLoader(
     private val repo: GetServiceObjectTypesRepository
 ) {
 
-    suspend operator fun invoke(): Flow<Int> {
+    suspend operator fun invoke(): Flow<List<ServiceObjectType>> {
 
         val remoteResult = repo.loadTotalCount().totalCount
         val localResultSize = runCatching {
@@ -21,9 +23,8 @@ class GetObjectTypesQuantity(
             loadRemote(remoteResult)
         }
 
-        return flow {
-            emit(remoteResult)
-        }
+        return repo.getLocalServiceObject()
+            .filter { remoteResult == it.size }
     }
 
     private suspend fun loadRemote(totalCount: Int) {

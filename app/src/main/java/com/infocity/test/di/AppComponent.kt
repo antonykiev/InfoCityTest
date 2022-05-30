@@ -20,7 +20,8 @@ import com.infocity.test.feature.domain.repository.AuthRepository
 import com.infocity.test.feature.domain.repository.GetServiceObjectTypesRepository
 import com.infocity.test.feature.domain.repository.UserRepository
 import com.infocity.test.feature.domain.usecase.AuthUser
-import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantity
+import com.infocity.test.feature.domain.usecase.GetObjectTypes
+import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantityLoader
 import com.infocity.test.feature.presentation.auth.ViewModelAuth
 import com.infocity.test.feature.presentation.service_object_type.ServiceObjectTypeFragment
 import com.infocity.test.feature.presentation.service_object_type.ServiceObjectTypeViewModel
@@ -100,8 +101,15 @@ internal class UseCaseModule {
     @Provides
     fun provideGetObjectTypesQuantity(
         remoteRepo: GetServiceObjectTypesRepository,
-    ): GetObjectTypesQuantity =
-        GetObjectTypesQuantity(remoteRepo)
+    ): GetObjectTypesQuantityLoader =
+        GetObjectTypesQuantityLoader(remoteRepo)
+
+    @Singleton
+    @Provides
+    fun provideGetObjectTypes(
+        remoteRepo: GetServiceObjectTypesRepository,
+    ): GetObjectTypes =
+        GetObjectTypes(remoteRepo)
 
 }
 

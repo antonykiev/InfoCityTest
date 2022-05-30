@@ -1,16 +1,18 @@
 package com.infocity.test.feature.presentation.service_object_type
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantity
+import com.infocity.test.feature.domain.usecase.GetObjectTypes
+import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantityLoader
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ServiceObjectTypeViewModel @Inject constructor(
-    private val loadQuantityUseCase: GetObjectTypesQuantity
+    private val loadQuantityUseCase: GetObjectTypesQuantityLoader,
+    private val getObjectTypes: GetObjectTypes
 ): ViewModel() {
 
     private val _uiServiceState = MutableStateFlow<UIServiceObjectTypeState>(UIServiceObjectTypeState.Loading)
@@ -20,13 +22,17 @@ class ServiceObjectTypeViewModel @Inject constructor(
         viewModelScope.launch {
             loadQuantityUseCase.invoke()
                 .collect {
-
-                    Log.d("infocity", "ServiceObjectTypeViewModel = ${this@ServiceObjectTypeViewModel}")
-
-                    _uiServiceState.emit(UIServiceObjectTypeState.Success(it))
+                    _uiServiceState.emit(
+                        UIServiceObjectTypeState.Success(it.size)
+                    )
                 }
         }
     }
+
+    suspend fun loadFiltered(id: String?) = getObjectTypes.invoke(id)
+        .map {
+            it.sortedBy { !it.hasChildren }
+        }
 
     sealed class UIServiceObjectTypeState {
         object Loading: UIServiceObjectTypeState()
