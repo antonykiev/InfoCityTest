@@ -2,6 +2,7 @@ package com.infocity.test.feature.data.server.api
 
 import com.infocity.test.feature.data.server.HttpRoutes
 import com.infocity.test.feature.data.server.response.LoadTotalCountResponse
+import com.infocity.test.feature.data.server.response.ServiceObjectTypeResponse
 import retrofit2.http.*
 
 interface ApiServiceTypeObject {
@@ -12,6 +13,7 @@ interface ApiServiceTypeObject {
     ])
     @GET(HttpRoutes.GET_SERVICE_OBJECT_TYPES)
     suspend fun loadTotalCount(
+        @Header ("Authorization") bearer: String,
         @Query("RequireTotalCount") isRequired: Boolean = true,
         @Query("Skip") skip: Int = 0,
         @Query("Take") take: Int = 1
@@ -26,6 +28,6 @@ interface ApiServiceTypeObject {
     suspend fun getServiceObject(
         @Query("Skip") skip: Int,
         @Query("Take") take: Int
-    ): LoadTotalCountResponse
+    ): List<ServiceObjectTypeResponse>
 
 }

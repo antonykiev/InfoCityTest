@@ -21,10 +21,12 @@ import com.infocity.test.feature.domain.repository.UserRepository
 import com.infocity.test.feature.domain.usecase.AuthUser
 import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantity
 import com.infocity.test.feature.presentation.auth.ViewModelAuth
+import com.infocity.test.feature.presentation.service_object_type.ServiceObjectTypeFragment
 import com.infocity.test.feature.presentation.service_object_type.ServiceObjectTypeViewModel
 import dagger.*
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
+import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import javax.inject.Inject
 import javax.inject.Provider
@@ -35,6 +37,7 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
     ActivityBuilder::class,
+    FragmentBuilderModule::class,
     ViewModelModule::class,
     UseCaseModule::class,
     RepositoryModule::class,
@@ -53,6 +56,14 @@ interface AppComponent: AndroidInjector<App> {
         fun build(): AppComponent
 
     }
+}
+
+@Module
+abstract class FragmentBuilderModule {
+
+    @ContributesAndroidInjector
+    abstract fun contributeServiceObjectTypeFragment(): ServiceObjectTypeFragment
+
 }
 
 @Module
@@ -87,9 +98,10 @@ internal class UseCaseModule {
     @Singleton
     @Provides
     fun provideGetObjectTypesQuantity(
+        userRepository: UserRepository,
         remoteRepo: GetServiceObjectTypesRepository,
     ): GetObjectTypesQuantity =
-        GetObjectTypesQuantity(remoteRepo)
+        GetObjectTypesQuantity(userRepository, remoteRepo)
 
 }
 

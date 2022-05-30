@@ -1,5 +1,6 @@
 package com.infocity.test.feature.presentation.service_object_type
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.infocity.test.feature.domain.usecase.GetObjectTypesQuantity
@@ -19,6 +20,9 @@ class ServiceObjectTypeViewModel @Inject constructor(
         viewModelScope.launch {
             loadQuantityUseCase.invoke()
                 .collect {
+
+                    Log.d("infocity", "ServiceObjectTypeViewModel = ${this@ServiceObjectTypeViewModel}")
+
                     _uiServiceState.emit(UIServiceObjectTypeState.Success(it))
                 }
         }
