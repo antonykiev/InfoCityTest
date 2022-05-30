@@ -24,6 +24,14 @@ object Dependencies {
         const val viewModelCompose  = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}"
     }
 
+    object WorkManager {
+        const val workRuntimeJava   = "androidx.work:work-runtime:${Versions.workRuntime}"
+        const val workRuntimeKtx    = "androidx.work:work-runtime-ktx:${Versions.workRuntime}"
+        const val workRuntimeRxJava = "androidx.work:work-rxjava2:${Versions.workRuntime}"
+        const val workRuntimeTest   = "androidx.work:work-testing:${Versions.workRuntime}"
+        const val workRuntimeMultiProcess = "androidx.work:work-multiprocess:${Versions.workRuntime}"
+    }
+
     object DI {
         object Koin {
             const val koin = "io.insert-koin:koin-android:${Versions.koin}"

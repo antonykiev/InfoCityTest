@@ -29,33 +29,39 @@ android {
 
 dependencies {
 
-    implementation (Dependencies.Ktx.core)
-    implementation(Dependencies.Ktx.activity)
-    implementation(Dependencies.Ktx.fragment)
-    implementation (Dependencies.Androidx.appCompat)
-    implementation (Dependencies.Androidx.material)
-    implementation (Dependencies.Androidx.constraintLayout)
+    implementation  (Dependencies.Ktx.core)
+    implementation  (Dependencies.Ktx.activity)
+    implementation  (Dependencies.Ktx.fragment)
+    implementation  (Dependencies.Androidx.appCompat)
+    implementation  (Dependencies.Androidx.material)
+    implementation  (Dependencies.Androidx.constraintLayout)
 
-    implementation (Dependencies.DI.Dagger.dagger)
-    implementation (Dependencies.DI.Dagger.android)
-    implementation (Dependencies.DI.Dagger.support)
-    kapt (Dependencies.DI.Dagger.compiler)
-    kapt (Dependencies.DI.Dagger.processor)
+    implementation  (Dependencies.DI.Dagger.dagger)
+    implementation  (Dependencies.DI.Dagger.android)
+    implementation  (Dependencies.DI.Dagger.support)
+    kapt            (Dependencies.DI.Dagger.compiler)
+    kapt            (Dependencies.DI.Dagger.processor)
 
-    implementation (Dependencies.LifeCycle.runtime)
-    implementation (Dependencies.LifeCycle.livedata)
-    implementation (Dependencies.LifeCycle.viewModel)
+    implementation  (Dependencies.LifeCycle.runtime)
+    implementation  (Dependencies.LifeCycle.livedata)
+    implementation  (Dependencies.LifeCycle.viewModel)
 
-    implementation (Dependencies.Retrofit.retrofit)
-    implementation (Dependencies.Retrofit.okHttp)
-    implementation (Dependencies.Retrofit.interceptor)
-    implementation (Dependencies.Retrofit.gsonConverter)
+    implementation  (Dependencies.WorkManager.workRuntimeKtx)
 
-    implementation(Dependencies.Room.room)
-    implementation(Dependencies.Room.ktx)
-    kapt(Dependencies.Room.compiler)
+    implementation  (Dependencies.Retrofit.retrofit)
+    implementation  (Dependencies.Retrofit.okHttp)
+    implementation  (Dependencies.Retrofit.interceptor)
+    implementation  (Dependencies.Retrofit.gsonConverter)
 
-    implementation(Dependencies.Mapper.mapStruct)
-    kapt(Dependencies.Mapper.mapStructKapt)
+    implementation  (Dependencies.Room.room)
+    implementation  (Dependencies.Room.ktx)
+    kapt            (Dependencies.Room.compiler)
+
+    implementation  (Dependencies.Navigation.navigationRuntimeKtx)
+    implementation  (Dependencies.Navigation.navigationFragmentKtx)
+    implementation  (Dependencies.Navigation.navigationUiKtx)
+
+    implementation  (Dependencies.Mapper.mapStruct)
+    kapt            (Dependencies.Mapper.mapStructKapt)
 
 }

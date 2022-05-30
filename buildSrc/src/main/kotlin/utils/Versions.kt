@@ -25,5 +25,6 @@ object Versions {
 
     const val navigation = "2.3.0-alpha01"
     const val lifecycle = "2.5.0-rc01"
+    const val workRuntime = "2.7.1"
     const val coroutines = "1.6.1"
 }
