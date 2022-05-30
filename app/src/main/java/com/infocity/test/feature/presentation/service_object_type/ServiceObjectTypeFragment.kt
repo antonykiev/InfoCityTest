@@ -3,8 +3,8 @@ package com.infocity.test.feature.presentation.service_object_type
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +25,7 @@ class ServiceObjectTypeFragment: Fragment(R.layout.fragment_service_object_type)
 
     private val binding by viewBinding(FragmentServiceObjectTypeBinding::bind)
 
-    private val serviceObjectTypeViewModel by viewModels<ServiceObjectTypeViewModel> { viewModelFactory }
+    private val serviceObjectTypeViewModel by activityViewModels<ServiceObjectTypeViewModel> { viewModelFactory }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +42,6 @@ class ServiceObjectTypeFragment: Fragment(R.layout.fragment_service_object_type)
 
         lifecycleScope.launchWhenStarted {
             serviceObjectTypeViewModel.uiServiceState.collectLatest {
-                Log.d("infocity", "ServiceObjectTypeFragment quantity = $it")
                 load()
             }
         }

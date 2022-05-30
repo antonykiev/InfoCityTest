@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), HasAndroidInject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("infocity", "start...")
 
         lifecycleScope.launchWhenStarted {
             userListViewModel.uiAuthState.collectLatest {
@@ -57,8 +56,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), HasAndroidInject
     }
 
     private fun onSuccessAuth() {
-        Log.d("infocity", "onSuccessAuth")
-
         binding.progressBar.visibility = View.INVISIBLE
 
         supportFragmentManager.beginTransaction()
